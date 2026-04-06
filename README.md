@@ -1,58 +1,68 @@
+<div align="center">
+
 # Research Agent 🤖
 
 An intelligent AI-powered research assistant that automatically generates research questions, searches the web, creates comprehensive documents with proper citations, and self-evaluates its output quality. Built with **LangGraph** for robust workflow orchestration and **Streamlit** for an intuitive UI.
 
+[![Python](https://img.shields.io/badge/Python-3.8%2B-blue?logo=python&logoColor=white)](https://www.python.org/)
+[![LangGraph](https://img.shields.io/badge/LangGraph-0.0%2B-green?logo=data:image/svg%2Bxml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSIyIj48cGF0aCBkPSJNMjAgNHYxNmEzIDMgMCAwIDEtMyAzSDdhMyAzIDAgMCAxLTMtM1Y0YTMgMyAwIDAgMSAzLTNoMTBhMyAzIDAgMCAxIDMgM3oiLz48cGF0aCBkPSJNMTIgOGw0IDRtLTQgNGwtNC00Ii8+PC9zdmc+)](https://langchain-ai.github.io/langgraph/)
+[![Streamlit](https://img.shields.io/badge/Streamlit-1.30%2B-red?logo=streamlit&logoColor=white)](https://streamlit.io/)
+[![Mistral AI](https://img.shields.io/badge/Mistral%20AI-2512-orange?logo=data:image/svg%2Bxml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSIyIj48Y2lyY2xlIGN4PSIxMiIgY3k9IjEyIiByPSIxMCIvPjxwYXRoIGQ9Ik0xMiA4bDQgNG00LTQ0bC00IDQiLz48L3N2Zz4=)](https://mistral.ai/)
+[![Pinecone](https://img.shields.io/badge/Pinecone-Vector%20Store-purple?logo=data:image/svg%2Bxml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSIyIj48cGF0aCBkPSJNMTIgMmwxMCAxMHYxMEgyVjEyTDEyIDJ6Ii8+PC9zdmc+)](https://www.pinecone.io/)
+[![Tavily](https://img.shields.io/badge/Tavily-Search-cyan?logo=data:image/svg%2Bxml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSIyIj48Y2lyY2xlIGN4PSIxMSIgY3k9IjExIiByPSI4Ii8+PHBhdGggZD0iTTE1IDE1bDQtNG00LTQ0bC00IDQiLz48L3N2Zz4=)](https://tavily.com/)
+
+</div>
+
 ## 🌟 Features
 
-- **🧠 Intelligent Research Generation**: Automatically breaks down complex queries into focused research questions
-- **🌐 Web Search Integration**: Searches the web using Tavily API for up-to-date information
-- **📄 Citation Management**: Properly cites all sources using numbered citations with full URLs
-- **⚡ Semantic Caching**: Caches research results to provide instant responses for repeat queries
-- **🔄 Auto-Retry Mechanism**: Automatically rewrites questions or documents if quality score is low (<70%)
-- **📡 Real-time Streaming**: Streams the research document as it's being written
-- **📊 Quality Evaluation**: Self-evaluates research relevance and coverage, provides improvement suggestions
-- **🔍 Dual Interface**: Both terminal-based CLI and beautiful Streamlit web UI
+| Feature                  | Description                                                                      |
+| ------------------------ | -------------------------------------------------------------------------------- |
+| **Intelligent Research** | Automatically breaks down complex queries into focused research questions        |
+| **Web Search**           | Searches the web using Tavily API for up-to-date information                     |
+| **Citation Management**  | Properly cites all sources using numbered citations with full URLs               |
+| **Semantic Caching**     | Caches research results to provide instant responses for repeat queries          |
+| **Auto-Retry**           | Automatically rewrites questions or documents if quality score is low (<70%)     |
+| **Real-time Streaming**  | Streams the research document as it's being written                              |
+| **Quality Evaluation**   | Self-evaluates research relevance and coverage, provides improvement suggestions |
+| **Dual Interface**       | Both terminal-based CLI and beautiful Streamlit web UI                           |
+
+---
+
+## 📑 Quick Navigation
+
+- [🏗️ Architecture](#-architecture)
+- [🚀 Quick Start](#-quick-start)
+- [🎯 Usage](#-usage)
+- [🔧 Configuration](#-configuration)
+- [📊 Research Workflow](#-research-workflow)
+- [🎨 UI Features](#-ui-features)
+- [🗂️ Project Structure](#️-project-structure)
+- [🔍 Technical Details](#-technical-details)
+- [🐛 Troubleshooting](#-troubleshooting)
+
+---
 
 ## 🏗️ Architecture
 
-```
-┌─────────────────────────────────────────────────────────────┐
-│  User Query                                                 │
-└──────────────────────┬──────────────────────────────────────┘
-                       ↓
-┌─────────────────────────────────────────────────────────────┐
-│  Cache Check  ←─────────────────┐                           │
-│  (Pinecone)   │ Cache Hit?     │                           │
-└───────────────┴─────────────────┘                           │
-                │                                                │
-                ↓ No                                             │
-┌────────────────────────────────────────┐                     │
-│  Create Questions                      │                     │
-│  (Mistral AI)                         │                     │
-└────────────┬───────────────────────────┘                     │
-             ↓                                                │
-┌──────────────────────────────────┐                          │
-│  Tavily Web Search               │                          │
-└─────────┬────────────────────────┘                          │
-          ↓                                                   │
-┌─────────────────────────────────────────┐                   │
-│  Create Document                        │                   │
-│  with Citations                         │                   │
-└──────────┬──────────────────────────────┘                   │
-           ↓                                                  │
-┌──────────────────────────────────────────┐                  │
-│  Evaluate Quality                        │                  │
-│  (Relevance + Coverage)                  │                  │
-└─┬─────────┬─────────┬────────────────────┘                  │
-  │         │         │                                         │
-  ↓ <0.7   ↓ <0.7    │ Score ≥ 0.7                             │
-Rewrite   Rewrite      ↓                                         │
-Questions Document  ┌────────────────────────┐                  │
-  └────────────────→│  Complete & Return     │                  │
-  (Retry)           └────────────────────────┘                  │
-  (Max 3 attempts)                                             │
-  ↑                                                             │
-  └─────────────────────────────────────────────────────────────┘
+```mermaid
+flowchart TD
+    Start([User Query]) --> Cache[Cache Check<br/>Pinecone]
+    Cache -->|Cache Hit| Return[Return Cached Results]
+    Cache -->|Cache Miss| Questions[Create Questions<br/>Mistral AI]
+    Questions --> Search[Tavily Web Search]
+    Search --> Document[Create Document<br/>with Citations]
+    Document --> Evaluate[Evaluate Quality<br/>Relevance + Coverage]
+    Evaluate -->|Score ≥ 0.7| Return
+    Evaluate -->|Score < 0.7<br/>Relevance Low| Questions
+    Evaluate -->|Score < 0.7<br/>Coverage Low| Document
+
+    style Start fill:#e1f5ff,stroke:#0277bd,color:#01579b
+    style Return fill:#c8e6c9,stroke:#2e7d32,color:#1b5e20
+    style Cache fill:#fff3e0,stroke:#ef6c00,color:#e65100
+    style Questions fill:#e3f2fd,stroke:#0288d1,color:#01579b
+    style Search fill:#f3e5f5,stroke:#7b1fa2,color:#4a148c
+    style Document fill:#e8f5e9,stroke:#388e3c,color:#1b5e20
+    style Evaluate fill:#fce4ec,stroke:#c2185b,color:#880e4f
 ```
 
 ## 🚀 Quick Start
@@ -298,6 +308,15 @@ The agent excels at:
 
 ---
 
-**Happy Researching! 🔍**
+## 📞 Support
 
-_For questions or issues, please open an issue in the repository._
+- **Email**: [work.raj.38@example.com](mailto:work.raj.38@example.com)
+- **Issues**: [GitHub Issues](https://github.com/your-username/Research-Agent/issues)
+
+---
+
+<div align="center">
+
+[⬆️ Back to Top](#research-agent)
+
+</div>
