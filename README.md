@@ -310,8 +310,8 @@ The agent excels at:
 
 ## 📞 Support
 
-- **Email**: [work.raj.38@example.com](mailto:work.raj.38@example.com)
-- **Issues**: [GitHub Issues](https://github.com/your-username/Research-Agent/issues)
+- **Email**: [work.raj.38@example.com](mailto:work.raj.38@gmail.com)
+- **Issues**: [GitHub Issues](https://github.com/RajTejani61/Research-Agent/issues)
 
 ---
 
