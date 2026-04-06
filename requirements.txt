@@ -1,0 +1,13 @@
+langgraph
+langchain
+langchain_core
+langchain-mistralai
+langchain-google-genai
+langchain-openrouter
+langchain-pinecone
+langchain-core
+tavily-python
+streamlit
+pydantic
+python-dotenv
+typing
